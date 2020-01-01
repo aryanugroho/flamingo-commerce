@@ -2,18 +2,15 @@ package graphql
 
 import (
 	"context"
-	"errors"
 	cartApplication "flamingo.me/flamingo-commerce/v3/cart/application"
 	"flamingo.me/flamingo-commerce/v3/cart/domain/decorator"
 	"flamingo.me/flamingo-commerce/v3/checkout/application"
 	"flamingo.me/flamingo-commerce/v3/checkout/interfaces/graphql/dto"
 	"flamingo.me/flamingo/v3/framework/flamingo"
-	"flamingo.me/flamingo/v3/framework/web"
-	"net/url"
 )
 
 // CommerceCheckoutMutationResolver resolves graphql checkout mutations
-type CommerceCheckoutMutationResolver struct {
+type CommerceCheckoutQueryResolver struct {
 	orderService         *application.OrderService
 	decoratedCartFactory *decorator.DecoratedCartFactory
 	cartService          *cartApplication.CartService
@@ -21,7 +18,7 @@ type CommerceCheckoutMutationResolver struct {
 }
 
 // Inject dependencies
-func (r *CommerceCheckoutMutationResolver) Inject(
+func (r *CommerceCheckoutQueryResolver) Inject(
 	orderService *application.OrderService,
 	decoratedCartFactory *decorator.DecoratedCartFactory,
 	cartService *cartApplication.CartService,
@@ -33,6 +30,15 @@ func (r *CommerceCheckoutMutationResolver) Inject(
 
 }
 
+func (r *CommerceCheckoutQueryResolver) CommerceCheckoutPlaceOrderContext(ctx context.Context) (*dto.PlaceOrderContext, error) {
+	return &dto.PlaceOrderContext{
+		Cart:       nil,
+		OrderInfos: nil,
+		State:      nil,
+	}, nil
+}
+
+/*
 //CommerceCheckoutPlaceOrder places the order.
 // TODO - handleEarlyplaceorder and allow multiple calls to this resolver
 // TODO - eventually extract common logic from controller to application service
@@ -113,3 +119,5 @@ func (r *CommerceCheckoutMutationResolver) CommerceCheckoutPlaceOrder(ctx contex
 		},
 	}, nil
 }
+
+*/

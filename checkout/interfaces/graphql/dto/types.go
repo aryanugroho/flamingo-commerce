@@ -8,37 +8,93 @@ import (
 )
 
 type (
-
-	//PlaceOrderResult - represents the result
-	PlaceOrderResult struct {
-		Status               Status
-		CartValidationResult *validation.Result
-		OrderSuccessData     *OrderSuccessData
-		Error                *Error
+	PlaceOrderContext struct {
+		Cart       *decorator.DecoratedCart
+		OrderInfos *PlacedOrderInfos
+		State      State
 	}
 
-	//Error value object
-	Error struct {
-		IsPaymentError bool
-		ErrorKey       string
+	PlacedOrderInfos struct {
+		PaymentInfos     []application.PlaceOrderPaymentInfo
+		PlacedOrderInfos []placeorder.PlacedOrderInfo
+		Email            string
 	}
 
-	//Status value
-	Status string
+	State interface {
+		Final() bool
+	}
 
-	// OrderSuccessData represents the infos available if the order was placed successfully
-	OrderSuccessData struct {
-		PaymentInfos        []application.PlaceOrderPaymentInfo
-		PlacedOrderInfos    []placeorder.PlacedOrderInfo
-		Email               string
-		PlacedDecoratedCart decorator.DecoratedCart
+	StateWait struct {
+	}
+
+	StateSuccess struct {
+	}
+
+	StateFatalError struct {
+		Error string
+	}
+
+	StateShowIframe struct {
+		Url string
+	}
+
+	StateShowHtml struct {
+		Html string
+	}
+
+	StateRedirect struct {
+		Url string
+	}
+
+	StateCancelled struct {
+		CancellationReason CancellationReason
+	}
+
+	CancellationReason interface {
+		Reason() string
+	}
+
+	CancellationReasonPaymentError struct {
+		PaymentError error
+	}
+
+	CancellationReasonValidationError struct {
+		ValidationResult validation.Result
 	}
 )
 
-//allowed Values for Status Enum
-const (
-	INVALID        = "INVALID"
-	ERROR          = "ERROR"
-	ORDERSUCCESS   = "ORDERSUCCESS"
-	PAYMENTPENDING = "PAYMENTPENDING"
-)
+func (s *StateWait) Final() bool {
+	return false
+}
+
+func (s *StateSuccess) Final() bool {
+	return true
+}
+
+func (s *StateFatalError) Final() bool {
+	return true
+}
+
+func (s *StateShowIframe) Final() bool {
+	return false
+}
+
+func (s *StateShowHtml) Final() bool {
+	return false
+}
+
+func (s *StateRedirect) Final() bool {
+	return false
+}
+
+func (s *StateCancelled) Final() bool {
+	return true
+}
+
+func (c *CancellationReasonPaymentError) Reason() string {
+	return c.PaymentError.Error()
+}
+
+func (c *CancellationReasonValidationError) Reason() string {
+	return "cart-invalid"
+}
