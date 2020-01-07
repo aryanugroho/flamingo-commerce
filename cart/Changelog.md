@@ -42,3 +42,7 @@
 * Introduce `UpdateItems` to `ModifyBehaviour`interface to reduce calls for updating items one by one
 * Add helper function `GetDeliveryByItemID`
 * Remove `itemID` and `deliveryCode` as parameters for `UpdateItem` as this information is part of the update command, respectively from the new helper
+
+# 7. January 2020
+* Add [Idempotency Key pattern](https://stripe.com/blog/idempotency) to the `PaymentSelection`
+  * PaymentSelection interface now offers new functions for receiving (`IdempotencyKey()`) / generating (`GenerateNewIdempotencyKey()`) a new Idempotency-Key
