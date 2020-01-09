@@ -88,3 +88,5 @@ commerce:
 
 
 
+graphql:
+  introspectionEnabled: true
