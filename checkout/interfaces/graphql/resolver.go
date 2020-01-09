@@ -5,12 +5,14 @@ import (
 	cartApplication "flamingo.me/flamingo-commerce/v3/cart/application"
 	"flamingo.me/flamingo-commerce/v3/cart/domain/decorator"
 	"flamingo.me/flamingo-commerce/v3/checkout/application"
+	"flamingo.me/flamingo-commerce/v3/checkout/application/placeorder"
 	"flamingo.me/flamingo-commerce/v3/checkout/interfaces/graphql/dto"
 	"flamingo.me/flamingo/v3/framework/flamingo"
 )
 
 // CommerceCheckoutQueryResolver resolves graphql checkout mutations
 type CommerceCheckoutQueryResolver struct {
+	placeorderHandler    *placeorder.Handler
 	orderService         *application.OrderService
 	decoratedCartFactory *decorator.DecoratedCartFactory
 	cartService          *cartApplication.CartService
@@ -19,10 +21,12 @@ type CommerceCheckoutQueryResolver struct {
 
 // Inject dependencies
 func (r *CommerceCheckoutQueryResolver) Inject(
+	placeorderHandler *placeorder.Handler,
 	orderService *application.OrderService,
 	decoratedCartFactory *decorator.DecoratedCartFactory,
 	cartService *cartApplication.CartService,
 	logger flamingo.Logger) {
+	r.placeorderHandler = placeorderHandler
 	r.orderService = orderService
 	r.decoratedCartFactory = decoratedCartFactory
 	r.cartService = cartService
@@ -32,10 +36,16 @@ func (r *CommerceCheckoutQueryResolver) Inject(
 
 //CommerceCheckoutPlaceOrderContext query
 func (r *CommerceCheckoutQueryResolver) CommerceCheckoutPlaceOrderContext(ctx context.Context) (*dto.PlaceOrderContext, error) {
+
+	poctx, err := r.placeorderHandler.RefreshPlaceOrder(ctx, placeorder.RefreshPlaceOrderCommand{})
+	if err != nil {
+		return nil, err
+	}
+	dc := r.decoratedCartFactory.Create(ctx, poctx.Cart)
 	return &dto.PlaceOrderContext{
-		Cart:       nil,
+		Cart:       dc,
 		OrderInfos: nil,
-		State:      nil,
+		State:      poctx.State,
 	}, nil
 }
 

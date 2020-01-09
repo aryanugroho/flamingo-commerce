@@ -5,6 +5,7 @@ import (
 	"flamingo.me/flamingo-commerce/v3/cart/domain/placeorder"
 	"flamingo.me/flamingo-commerce/v3/cart/domain/validation"
 	"flamingo.me/flamingo-commerce/v3/checkout/application"
+	"flamingo.me/flamingo-commerce/v3/checkout/domain/placeorder/process"
 )
 
 type (
@@ -12,7 +13,7 @@ type (
 	PlaceOrderContext struct {
 		Cart       *decorator.DecoratedCart
 		OrderInfos *PlacedOrderInfos
-		State      State
+		State      process.State
 	}
 
 	//PlacedOrderInfos infos
