@@ -6,11 +6,10 @@ zap.loglevel: Warn
 flamingo:
   router:
     path: /en
-
-prefixrouter:
-  rootRedirectHandler:
-    enabled: true
-    redirectTarget: "/en/"
+  prefixrouter:
+    rootRedirectHandler:
+      enabled: true
+      redirectTarget: "/en/"
 
 
 pagination:

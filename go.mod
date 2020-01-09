@@ -4,9 +4,9 @@ go 1.13
 
 require (
 	flamingo.me/dingo v0.2.6
-	flamingo.me/flamingo/v3 v3.1.1
+	flamingo.me/flamingo/v3 v3.1.6-0.20200108121910-d909210760cc
 	flamingo.me/form v1.0.1-0.20191008191024-ff6f3a9330d6
-	flamingo.me/graphql v1.0.1
+	flamingo.me/graphql v1.0.2-0.20200109090653-271ced2b302c
 	flamingo.me/pugtemplate v1.0.0
 	github.com/99designs/gqlgen v0.9.0
 	github.com/ajg/form v1.5.1 // indirect
@@ -23,6 +23,7 @@ require (
 	github.com/pkg/errors v0.8.1
 	github.com/stretchr/testify v1.4.0
 	github.com/valyala/fasthttp v1.6.0 // indirect
+	github.com/vektah/gqlparser v1.1.2
 	github.com/xeipuuv/gojsonschema v1.2.0 // indirect
 	github.com/yalp/jsonpath v0.0.0-20180802001716-5cc68e5049a0 // indirect
 	github.com/yudai/gojsondiff v1.0.0 // indirect
@@ -36,3 +37,5 @@ replace (
 	github.com/robertkrimen/otto => github.com/thebod/otto v0.0.0-20170712091932-83d297c4b64a
 	golang.org/x/oauth2 => github.com/Ompluscator/oauth2 v0.0.0-20190121141151-b76268579942
 )
+
+replace flamingo.me/graphql => ../graphql
