@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	flamingo.me/dingo v0.2.6
-	flamingo.me/flamingo/v3 v3.1.6-0.20200108121910-d909210760cc
+	flamingo.me/flamingo/v3 v3.1.6-0.20200109091720-34c2128ce01a
 	flamingo.me/form v1.0.1-0.20191008191024-ff6f3a9330d6
 	flamingo.me/graphql v1.0.2-0.20200109090653-271ced2b302c
 	flamingo.me/pugtemplate v1.0.0
@@ -37,5 +37,3 @@ replace (
 	github.com/robertkrimen/otto => github.com/thebod/otto v0.0.0-20170712091932-83d297c4b64a
 	golang.org/x/oauth2 => github.com/Ompluscator/oauth2 v0.0.0-20190121141151-b76268579942
 )
-
-replace flamingo.me/graphql => ../graphql
