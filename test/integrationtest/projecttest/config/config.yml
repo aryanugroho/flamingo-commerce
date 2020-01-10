@@ -1,16 +1,28 @@
 # Flamingo core related configurations:
-debug.mode: false
 
-zap.loglevel: Warn
+core:
+  zap.loglevel: Warn
+  oauth:
+    server: 'https://accounts.google.com'
+    secret: '%%ENV:OAUTH_SECRET%%'
+    clientid: flamingo
+    myhost: '%%ENV:FLAMINGO_HOSTNAME%%'
+    disableOfflineToken: true
+    enabled: false
 
 flamingo:
+  debug.mode: false
   router:
     path: /en
   prefixrouter:
     rootRedirectHandler:
       enabled: true
       redirectTarget: "/en/"
-
+  session:
+    cookie:
+      secure: false
+      #path: /tmp/ #use for persisted session in file
+    backend: memory
 
 pagination:
   showFirstPage: false
@@ -18,20 +30,8 @@ pagination:
   defaultPageSize: 8
   showAroundActivePageAmount: 2
 
-oauth:
-  server: 'https://accounts.google.com'
-  secret: '%%ENV:OAUTH_SECRET%%'
-  clientid: flamingo
-  myhost: '%%ENV:FLAMINGO_HOSTNAME%%'
-  disableOfflineToken: true
-  enabled: false
 
-# in prod you will use something like redis
-session:
-  cookie:
-    secure: false
-    #path: /tmp/ #use for persisted session in file
-  backend: memory
+
 
 # Configs for flamingo-commerce modules
 checkout:
